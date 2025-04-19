@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Foydalanuvchi profili{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h1 class="mb-4">Foydalanuvchi profili</h1>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body text-center">
+            <h2 class="card-title">Shaxsiy ma'lumotlar</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% if current_user.profile_image %}
+                <img src="{{ url_for('static', filename='uploads/' + current_user.profile_image) }}" alt="Profile Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            {% else %}
+                <img src="{{ url_for('static', filename='uploads/default_profile.png') }}" alt="Default Profile Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            {% endif %}
+
+            <p><strong>Ism:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">Ma'lumotlarni tahrirlash</button>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Sozlamalar</h2>
+            <p>Parolingizni yangilash uchun quyidagi tugmani bosing.</p>
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Parolni o'zgartirish</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Ma'lumotlarni tahrirlash -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Ma'lumotlarni tahrirlash</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm" method="POST" action="{{ url_for('profile.edit_profile') }}" enctype="multipart/form-data">
+                    <div class="mb-3 text-center">
+                        {% if user.profile_image %}
+                            <img src="{{ url_for('static', filename='uploads/' + user.profile_image) }}" alt="Profile Image" class="profile-img mb-3 rounded-circle" id="profileImagePreview" style="width: 150px; height: 150px;">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='uploads/default_profile.png') }}" alt="Default Profile Image" class="profile-img mb-3 rounded-circle" id="profileImagePreview" style="width: 150px; height: 150px;">
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="profileImage" class="form-label">Profil rasmi</label>
+                        <input type="file" class="form-control" id="profileImage" name="profile_image" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Ism</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Saqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Parolni o'zgartirish -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Parolni o'zgartirish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm" method="POST" action="{{ url_for('profile.change_password') }}">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Joriy parol</label>
+                        <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Yangi parol</label>
+                        <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Yangi parolni tasdiqlash</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Parolni yangilash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

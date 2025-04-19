@@ -1,69 +1,80 @@
-from flask import Flask, request, render_template, send_file
-from generator import generate_passwords, calculate_combinations
+from flask import Flask, render_template
+from flask_login import LoginManager
+from dotenv import load_dotenv
 import os
-from io import BytesIO
-import zipfile
+from db import db
+from werkzeug.security import generate_password_hash
 
+# .env faylini yuklash
+load_dotenv()
+
+# Flask ilovasini yaratish
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key')
 
-@app.route('/', methods=['GET', 'POST'])
+# instance papkasini yaratish
+instance_path = os.path.join(os.path.dirname(__file__), 'instance')
+os.makedirs(instance_path, exist_ok=True)
+
+# Ma'lumotlar bazasi yo'lini sozlash
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(instance_path, "database.db")}'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
+# Ma'lumotlar bazasini sozlash
+db.init_app(app)
+
+# Login manager
+login_manager = LoginManager(app)
+login_manager.login_view = 'auth.login'
+
+# Route'larni import qilish
+from routes.auth import auth_bp
+from routes.profile import profile_bp
+from routes.history import history_bp
+from routes.generate import generate_bp
+from routes.users import users_bp
+
+# Blueprint'larni ro'yxatdan o'tkazish
+app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(profile_bp, url_prefix='/profile')
+app.register_blueprint(history_bp, url_prefix='/history')
+app.register_blueprint(generate_bp)
+app.register_blueprint(users_bp)
+
+# Ma'lumotlar bazasini yaratish va adminni qo‘shish
+with app.app_context():
+    from models.user import User
+    from models.history import PasswordHistory
+    db.create_all()
+
+    # Adminni qo‘shish
+    admin_email = 'otaxonovnematjon@gmail.com'
+    admin_password = 'qwer1234'
+    if not User.query.filter_by(email=admin_email).first():
+        admin_user = User(name='admin', email=admin_email)
+        admin_user.password = generate_password_hash(admin_password)  # Parolni to‘g‘ridan-to‘g‘ri shifrlash
+        db.session.add(admin_user)
+        db.session.commit()
+
+# Foydalanuvchi yuklovchi
+@login_manager.user_loader
+def load_user(user_id):
+    from models.user import User
+    return User.query.get(int(user_id))
+
+@app.route('/')
+@app.route('/index')
 def index():
-    combinations = 0
-    error = None
-    if request.method == 'POST':
-        try:
-            use_lowercase = 'lowercase' in request.form
-            use_uppercase = 'uppercase' in request.form
-            use_digits = 'digits' in request.form
-            use_special = 'special' in request.form
-            custom_chars = request.form.get('custom_chars', '')
-            min_len = int(request.form.get('min_length', 1))
-            max_len = int(request.form.get('max_length', 2))
-            max_count = int(request.form.get('max_count', 1000))
+    return render_template('index.html')
 
-            chars = ''
-            if use_lowercase:
-                chars += 'abcdefghijklmnopqrstuvwxyz'
-            if use_uppercase:
-                chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-            if use_digits:
-                chars += '0123456789'
-            if use_special:
-                chars += '!@#$%^&*()_+-=[]{}|;:,.<>?'
-            chars += custom_chars
-            chars = ''.join(sorted(set(chars)))
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
-            if not chars:
-                error = "Belgilar to'plami bo'sh bo'lmasligi kerak!"
-                return render_template('index.html', error=error, combinations=combinations)
-
-            combinations = calculate_combinations(chars, min_len, max_len)
-            passwords = list(generate_passwords(chars, min_len, max_len, max_count))
-
-            output_file = 'wordlist.txt'
-            with open(output_file, 'w', encoding='utf-8') as f:
-                for pwd in passwords:
-                    f.write(pwd + '\n')
-
-            zip_buffer = BytesIO()
-            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-                zip_file.write(output_file)
-            zip_buffer.seek(0)
-
-            if os.path.exists(output_file):
-                os.remove(output_file)
-
-            return send_file(
-                zip_buffer,
-                mimetype='application/zip',
-                as_attachment=True,
-                download_name='wordlist.zip'
-            )
-        except Exception as e:
-            error = f"Xato yuz berdi: {str(e)}"
-            return render_template('index.html', error=error, combinations=combinations)
-
-    return render_template('index.html', combinations=combinations, error=error)
+@app.route('/generate')
+def generate():
+    return render_template('generate.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

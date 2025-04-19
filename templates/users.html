@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Foydalanuvchilar ro'yxati</h2>
+
+    <!-- Qidiruv va filtrlash formasi -->
+    <form method="GET" class="mb-4">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Ism yoki email bo‘yicha qidirish" value="{{ search_query }}">
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-control">
+                    <option value="all" {% if filter_status =='all' %}selected{% endif %}>Hammasi</option>
+                    <option value="active" {% if filter_status =='active' %}selected{% endif %}>Faol</option>
+                    <option value="blocked" {% if filter_status =='blocked' %}selected{% endif %}>Bloklangan</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Qidirish</button>
+            </div>
+        </div>
+    </form>
+
+    {% if users %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Foydalanuvchi nomi</th>
+                <th>Email</th>
+                <th>Oxirgi kirish</th>
+                <th>Generatsiya qilingan parollar</th>
+                <th>Holati</th>
+                <th>Harakatlar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.last_login if user.last_login else 'Hali kirmagan' }}</td>
+                <td>{{ user.password_count }}</td>
+                <td>{{ 'Bloklangan' if user.is_blocked else 'Faol' }}</td>
+                <td>
+                    <button class="btn btn-{{ 'warning' if not user.is_blocked else 'success' }} btn-sm me-2" onclick="toggleBlockUser('{{ user.name }}')">
+                        {{ 'Bloklash' if not user.is_blocked else 'Ochish' }}
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteUser('{{ user.name }}')">O'chirish</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Ho‘zircha foydalanuvchilar yo‘q.</p>
+    {% endif %}
+</div>
+
+<script>
+function deleteUser(name) {
+    if (confirm(`Foydalanuvchi ${name} ni o'chirishni tasdiqlaysizmi?`)) {
+        fetch('/api/delete_user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Foydalanuvchi o\'chirildi!');
+                location.reload();
+            } else {
+                alert('Xatolik yuz berdi: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Xatolik:', error);
+            alert('Xatolik yuz berdi!');
+        });
+    }
+}
+
+function toggleBlockUser(name) {
+    if (confirm(`Foydalanuvchi ${name} ni bloklash/ochishni tasdiqlaysizmi?`)) {
+        fetch('/api/toggle_block_user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert('Xatolik yuz berdi: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Xatolik:', error);
+            alert('Xatolik yuz berdi!');
+        });
+    }
+}
+</script>
+{% endblock %}

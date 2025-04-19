@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Parol generatsiyasi{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h1 class="mb-4">Parol ro‘yxatini generatsiya qilish</h1>
+
+    <!-- Generatsiya formasi -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Sozlamalar</h2>
+            <form id="generateForm">
+                <div class="mb-3">
+                    <label class="form-label">Belgilar to‘plami</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="lowercase" name="chars" value="lowercase" checked>
+                        <label class="form-check-label" for="lowercase">Kichik harflar (a-z)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="uppercase" name="chars" value="uppercase">
+                        <label class="form-check-label" for="uppercase">Katta harflar (A-Z)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="digits" name="chars" value="digits">
+                        <label class="form-check-label" for="digits">Raqamlar (0-9)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="special" name="chars" value="special">
+                        <label class="form-check-label" for="special">Maxsus belgilar (!@#$%)</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="length" class="form-label">Parol uzunligi</label>
+                    <input type="number" class="form-control" id="length" name="length" min="4" max="50" value="12" required>
+                    <small class="form-text text-muted">4 dan 50 gacha uzunlik tanlang (brauzer sinovi uchun).</small>
+                </div>
+
+                <div class="mb-3">
+                     <label for="limit" class="form-label">Parollar soni (maksimal):1000000</label>
+                     <input type="number" class="form-control" id="limit" name="limit" value="10000" min="1" max="1000000">
+                </div>
+
+                <div class="mb-3">
+                    <label for="mask" class="form-label">Maska (ixtiyoriy, masalan: ?l?l?d)</label>
+                    <input type="text" class="form-control" id="mask" name="mask" placeholder="?l = kichik harf, ?u = katta harf, ?d = raqam, ?s = maxsus belgi">
+                    <small class="form-text text-muted">Masalan, ?l?l?d → aa0, ab1, va hokazo.</small>
+                </div>
+                <div class="mb-3">
+                    <label for="customWords" class="form-label">Maxsus so‘zlar bazasi (ixtiyoriy)</label>
+                    <textarea class="form-control" id="customWords" name="customWords" rows="4" placeholder="Har bir so‘zni yangi qatordan kiriting (masalan, admin\ntest)"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Generatsiya qilish</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Natijalar -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">Generatsiya qilingan parollar</h2>
+            <div class="mb-3">
+                <label for="search" class="form-label">Qidirish/Filtrlash</label>
+                <input type="text" class="form-control" id="search" placeholder="Parolni izlash (masalan, admin yoki 123)">
+                <small class="form-text text-muted">Muayyan so‘z yoki raqamlarni kiriting.</small>
+            </div>
+            <div class="mb-3">
+                <button id="exportBtn" class="btn btn-outline-primary" disabled>Eksport qilish (.txt)</button>
+            </div>
+            <div id="result" class="border p-3" style="max-height: 300px; overflow-y: auto;">
+                <p class="text-muted">Parollar bu yerda ko‘rsatiladi...</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

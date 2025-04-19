@@ -1,41 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+    --primary: #1E3A8A;
+    --secondary: #3B82F6;
+    --success: #10B981;
+    --danger: #EF4444;
+    --light: #F1F5F9;
+    --dark: #1F2937;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
 body {
-    background-color: #f8f9fa;
-    font-family: 'Arial', sans-serif;
+    background-color: var(--light);
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark);
 }
 
-.container {
-    max-width: 600px;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    color: #343a40;
-    font-weight: bold;
+.card {
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: none;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border: none;
-    transition: background-color 0.3s;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    transition: var(--transition);
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: var(--secondary);
+    border-color: var(--secondary);
 }
 
-.list-group-item {
-    background-color: #f1f3f5;
-    margin-bottom: 5px;
-    border-radius: 5px;
+.btn-outline-primary {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    transition: var(--transition);
 }
 
-.progress-bar {
-    transition: width 0.3s ease-in-out;
+.btn-outline-primary:hover {
+    background-color: var(--secondary);
+    color: #fff;
+}
+
+.btn-success {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    border-color: var(--danger);
+}
+
+.navbar {
+    background-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.navbar-brand, .nav-link {
+    color: #fff !important;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--secondary) !important;
+}
+
+.card-title {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.modal-content {
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--secondary);
+    transition: var(--transition);
+}
+
+.profile-img:hover {
+    transform: scale(1.05);
+}
+
+.form-check {
+    margin-bottom: 12px;
+}
+
+#result div, #modalPasswordList div {
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#result div:last-child, #modalPasswordList div:last-child {
+    border-bottom: none;
+}
+
+#search, #filterInput {
+    max-width: 300px;
+    border-radius: 8px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.btn-sm {
+    display: inline-block;
+    width: auto;
+    min-width: 60px; /* Minimal kenglikni yanada kichiklashtirdik */
+    height: 32px; /* Balandlikni kichiklashtirdik */
+    line-height: 32px; /* Matnni vertikal markazlashtirish */
+    margin-right: 2px; /* Masofani yanada qisqartirdik */
+    padding: 0 6px; /* Ichki masofani kichiklashtirdik */
+    text-align: center;
+    font-size: 12px; /* Matn o‘lchamini kichiklashtirdik */
+}
+
+.sort {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.sort:hover {
+    color: var(--secondary);
+}
+
+.sort-icon {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+#filterType {
+    max-width: 200px;
+    border-radius: 8px;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
 }
 
 .alert {
-    font-size: 0.9rem;
+    border-radius: 8px;
+}
+footer {
+    background-color: #1E3A8A; /* Tungi ko‘k rang (loyihangizning asosiy rangi) */
+    color: #ffffff; /* Oq matn */
+    padding: 20px 0; /* Ichki masofa */
+    font-size: 14px; /* Matn o‘lchami */
+    border-top: 3px solid #ffffff; /* Yuqoridan oq chiziq */
+}
+
+footer a {
+    color: #ffffff; /* Havola rangi oq */
+    text-decoration: none; /* Havola ostidagi chiziqni olib tashlash */
+    transition: color 0.3s ease; /* Rang o‘zgarishi uchun animatsiya */
+}
+
+footer a:hover {
+    color: #FFD700; /* Havolaga hover qilinganda sariq rang */
+}
+
+footer p {
+    margin: 5px 0; /* Paragraflar orasidagi masofa */
+}
+
+/* Parol Generatsiyasi bo'yicha Yo'riqnoma bo'limi uchun stillar */
+.guide-section {
+    background-color: #f8f9fa; /* Och kulrang fon */
+    border-radius: 8px; /* Yumaloq burchaklar */
+    padding: 20px; /* Ichki masofa */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Yumshoq soya */
+    margin-bottom: 20px; /* Pastdan masofa */
+}
+
+.guide-section h2 {
+    color: #1E3A8A; /* Asosiy rang (tungi ko‘k) */
+    font-weight: 700; /* Qalin shrift */
+    margin-bottom: 20px; /* Pastdan masofa */
+}
+
+.guide-section h4 {
+    color: #343a40; /* To‘q kulrang sarlavha */
+    font-weight: 600; /* O‘rtacha qalin shrift */
+    margin-top: 20px; /* Yuqoridan masofa */
+    margin-bottom: 10px; /* Pastdan masofa */
+}
+
+.guide-section p {
+    color: #495057; /* Kulrang matn */
+    line-height: 1.6; /* Qatorlar orasidagi masofa */
+    margin-bottom: 15px; /* Pastdan masofa */
+}
+
+.guide-section ul {
+    padding-left: 25px; /* Ro‘yxat uchun chap masofa */
+    margin-bottom: 15px; /* Pastdan masofa */
+}
+
+.guide-section ul li {
+    color: #495057; /* Kulrang matn */
+    margin-bottom: 8px; /* Elementlar orasidagi masofa */
+}
+
+.guide-section ul ul {
+    padding-left: 20px; /* Ichki ro‘yxat uchun masofa */
+}
+
+.guide-section a {
+    color: #1E3A8A; /* Havola rangi */
+    text-decoration: none; /* Havola ostidagi chiziqni olib tashlash */
+    transition: color 0.3s ease; /* Rang o‘zgarishi uchun animatsiya */
+}
+
+.guide-section a:hover {
+    color: #FFD700; /* Hover’da sariq rang */
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.btn-danger {
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 576px) {
+    .btn-sm {
+        display: block;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        margin: 4px 0;
+        padding: 0;
+        text-align: center;
+    }
 }

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Generatsiya tarixi{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h1 class="mb-4">Generatsiya tarixi</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">Avvalgi generatsiyalar</h2>
+            {% if current_user %}
+                <div class="mb-3">
+                    <label for="filterInput" class="form-label">Filtrlash</label>
+                    <input type="text" class="form-control" id="filterInput" placeholder="Ta’rif bo‘yicha izlash (masalan, maska)">
+                    <select id="filterType" class="form-select mt-2">
+                        <option value="all">Barchasi</option>
+                        <option value="mask">Maska bo‘yicha</option>
+                        <option value="custom">Maxsus so‘zlar</option>
+                    </select>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="sort" data-sort="date">Sana <span class="sort-icon"></span></th>
+                            <th scope="col">Ta’rif</th>
+                            <th scope="col" class="sort" data-sort="count">Parollar soni <span class="sort-icon"></span></th>
+                            <th scope="col">Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTable">
+                        <!-- JavaScript tomonidan to'ldiriladi -->
+                    </tbody>
+                </table>
+                <p id="noHistory" class="text-muted d-none">Hozircha generatsiyalar yo‘q.</p>
+            {% else %}
+                <p class="text-muted">Generatsiya tarixini ko‘rish uchun tizimga kiring.</p>
+                <a href="{{ url_for('login') }}" class="btn btn-primary">Kirish</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Ro'yxatni ko'rish -->
+<div class="modal fade" id="viewPasswordsModal" tabindex="-1" aria-labelledby="viewPasswordsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewPasswordsModalLabel">Parollar ro‘yxati</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalPasswordList" class="border p-3" style="max-height: 400px; overflow-y: auto;">
+                    <!-- JavaScript tomonidan to'ldiriladi -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Ro'yxatni tahrirlash -->
+<div class="modal fade" id="editPasswordsModal" tabindex="-1" aria-labelledby="editPasswordsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPasswordsModalLabel">Ro‘yxatni tahrirlash</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editHistoryForm">
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Ta’rif</label>
+                        <input type="text" class="form-control" id="editDescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPasswords" class="form-label">Parollar ro‘yxati</label>
+                        <textarea class="form-control" id="editPasswords" rows="10" required></textarea>
+                    </div>
+                    <input type="hidden" id="editId">
+                    <button type="submit" class="btn btn-primary">Saqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

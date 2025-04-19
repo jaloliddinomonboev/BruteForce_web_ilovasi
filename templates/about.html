@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Bruteforce haqida{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h1 class="mb-4">Bruteforce haqida umumiy ma’lumot</h1>
+    
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Bruteforce nima?</h2>
+            <p class="card-text">
+                Bruteforce (brutal kuch) hujumi — bu avtomatlashtirilgan vositalar yordamida parol yoki boshqa autentifikatsiya ma’lumotlarini taxmin qilishga urinishdir. Bu usulda hujumchi mumkin bo‘lgan barcha kombinatsiyalarni sinab ko‘radi yoki oldindan tayyorlangan parollar ro‘yxatidan (wordlist) foydalanadi.
+            </p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Bruteforce qanday ishlaydi?</h2>
+            <p class="card-text">
+                Bruteforce hujumlari ikki asosiy turga bo‘linadi:
+            </p>
+            <ul>
+                <li><strong>To‘liq kombinatsiya</strong>: Belgilar to‘plamidan (masalan, harflar, raqamlar, belgilar) barcha mumkin bo‘lgan kombinatsiyalarni sinash.</li>
+                <li><strong>So‘zlar ro‘yxati</strong>: Oldindan tayyorlangan parollar ro‘yxatidan foydalanish (masalan, “password123”, “admin”).</li>
+            </ul>
+            <p>
+                Hujumning muvaffaqiyati tizimning himoya darajasiga, parolning murakkabligiga va ro‘yxat sifatiga bog‘liq.
+            </p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Bizning veb-ilovamiz</h2>
+            <p class="card-text">
+                Ushbu veb-ilova axborot xavfsizligi mutaxassislari va testchilar uchun mo‘ljallangan bo‘lib, foydalanuvchi sozlamalariga asoslangan moslashtirilgan parol ro‘yxatlarini yaratish imkonini beradi. Siz quyidagi imkoniyatlardan foydalanishingiz mumkin:
+            </p>
+            <ul>
+                <li>Belgilar to‘plami (harflar, raqamlar, maxsus belgilar) va uzunlikni tanlash.</li>
+                <li>Maxsus so‘zlar bazasini kiritish.</li>
+                <li>Generatsiya qilingan ro‘yxatlarni .txt yoki .csv formatida eksport qilish.</li>
+                <li>Oldingi generatsiyalarni ko‘rish va boshqarish.</li>
+            </ul>
+            <p>
+                Ilovamiz Hydra, Medusa va John the Ripper kabi ochiq manbali vositalar bilan mos keladigan formatlarda ishlaydi.
+            </p>
+        </div>
+    </div>
+
+    <div class="guide-section">
+            <h2>Parol Generatsiyasi bo'yicha Yo'riqnoma</h2>
+            <p>Bu yo'riqnoma sizga parol generatsiyasi jarayonini qanday sozlash va natijalarni olish bo'yicha umumiy ko'rsatmalar beradi.</p>
+
+            <h4>1. Generatsiya sahifasiga o'tish</h4>
+            <p>Navigatsiya menyusidagi <strong>"Generatsiya"</strong> havolasini bosing yoki <a href="{{ url_for('generate') }}">bu yerga</a> bosing. Bu sizni parol generatsiyasi sahifasiga olib boradi.</p>
+
+            <h4>2. Sozlamalarni tanlash</h4>
+            <p>Generatsiya sahifasida quyidagi sozlamalarni moslashtirishingiz mumkin:</p>
+            <ul>
+                <li><strong>Belgi turlari:</strong> Parolda qaysi belgi turlari bo‘lishini tanlang:
+                    <ul>
+                        <li><strong>Kichik harflar</strong> (a-z)</li>
+                        <li><strong>Katta harflar</strong> (A-Z)</li>
+                        <li><strong>Raqamlar</strong> (0-9)</li>
+                        <li><strong>Maxsus belgilar</strong> (!@#$%^&*())</li>
+                    </ul>
+                </li>
+                <li><strong>Parol uzunligi:</strong> Parol uzunligini belgilang (masalan, 8, 12 yoki 16 belgi). Uzunroq parollar odatda xavfsizroq bo‘ladi.</li>
+                <li><strong>Maska:</strong> Muayyan shablon bo‘yicha parol yaratish uchun maskadan foydalaning (masalan, ?l?l?d?d — ikki kichik harf va ikki raqam).</li>
+                <li><strong>Maxsus so‘zlar:</strong> O‘zingiz kiritgan so‘zlardan foydalanish uchun "Maxsus so‘zlar" maydoniga so‘zlarni kiriting (har bir so‘z yangi qatorda).</li>
+            </ul>
+
+            <h4>3. Generatsiyani amalga oshirish</h4>
+            <p>Sozlamalarni tanlaganingizdan so‘ng, <strong>"Generatsiya"</strong> tugmasini bosing. Tizim tanlangan sozlamalarga asoslanib parollar ro‘yxatini yaratadi.</p>
+
+            <h4>4. Natijalarni ko‘rish va foydalanish</h4>
+            <p>Generatsiya natijasida quyidagilar ko‘rinadi:</p>
+            <ul>
+                <li><strong>Parollar ro‘yxati:</strong> Har bir parol alohida qatorda ko‘rsatiladi. Har bir parol yonida "Nusxa olish" tugmasi mavjud bo‘lib, uni bosish orqali parolni osongina nusxalashingiz mumkin.</li>
+                <li><strong>Qidirish/filtrlash:</strong> Agar ko‘p parol generatsiya qilingan bo‘lsa, qidiruv maydoniga so‘z yoki raqam kiritib, kerakli parollarni filtrlashingiz mumkin (masalan, "admin" yoki "123").</li>
+                <li><strong>Eksport qilish:</strong> "Eksport qilish" tugmasini bosib, barcha generatsiya qilingan parollarni .txt fayl sifatida yuklab olishingiz mumkin.</li>
+            </ul>
+
+            <h4>5. Xavfsizlik bo‘yicha maslahatlar</h4>
+            <p>Generatsiya qilingan parollar xavfsiz bo‘lishi uchun quyidagi maslahatlarga rioya qiling:</p>
+            <ul>
+                <li>Kamida 12 belgidan iborat parollar yarating.</li>
+                <li>Iloji boricha barcha belgi turlarini (kichik harflar, katta harflar, raqamlar, maxsus belgilar) tanlang.</li>
+                <li>Maxsus so‘zlardan foydalansangiz, ularga qo‘shimcha belgilar qo‘shishni unutmang.</li>
+                <li>Generatsiya qilingan parollarni xavfsiz joyda saqlang va ularni boshqalar bilan ulashmang.</li>
+            </ul>
+    </div>
+
+    <div class="text-center">
+        <a href="{{ url_for('generate') }}" class="btn btn-primary">Parol generatsiyasini boshlash</a>
+    </div>
+</div>
+{% endblock %}
