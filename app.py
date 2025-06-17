@@ -49,7 +49,7 @@ with app.app_context():
     db.create_all()
 
     # Adminni qo‘shish
-    admin_email = 'otaxonovnematjon@gmail.com'
+    admin_email = 'jaloliddinomonboev@gmail.com'
     admin_password = 'qwer1234'
     if not User.query.filter_by(email=admin_email).first():
         admin_user = User(name='admin', email=admin_email)

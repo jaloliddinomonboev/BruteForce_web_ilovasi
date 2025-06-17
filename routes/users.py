@@ -10,7 +10,7 @@ users_bp = Blueprint('users', __name__)
 @users_bp.route('/users')
 @login_required
 def users_page():
-    if current_user.email != 'otaxonovnematjon@gmail.com':
+    if current_user.email != 'jaloliddinomonboev@gmail.com':
         return redirect(url_for('index'))
 
     # Qidiruv va filtrlash parametrlari
@@ -44,7 +44,7 @@ def users_page():
 @users_bp.route('/api/delete_user', methods=['POST'])
 @login_required
 def delete_user():
-    if current_user.email != 'otaxonovnematjon@gmail.com':
+    if current_user.email != 'jaloliddinomonboev@gmail.com':
         return jsonify({"success": False, "message": "Faqat admin foydalanuvchilar o‘chirishi mumkin!"}), 403
 
     data = request.get_json()
@@ -65,7 +65,7 @@ def delete_user():
 @users_bp.route('/api/toggle_block_user', methods=['POST'])
 @login_required
 def toggle_block_user():
-    if current_user.email != 'otaxonovnematjon@gmail.com':
+    if current_user.email != 'jaloliddinomonboev@gmail.com':
         return jsonify({"success": False, "message": "Faqat admin foydalanuvchilar bloklashi mumkin!"}), 403
 
     data = request.get_json()
