@@ -6,7 +6,10 @@ URL: https://parollar-generatori.onrender.com
 📌 Loyiha haqida
 BruteForce Web Ilovasi – bu foydalanuvchilarga murakkab parollar yaratishda, ularni .txt formatida yuklab olishda yordam beruvchi zamonaviy web platformadir. Ilova Python, HTML, CSS va JavaScript texnologiyalari asosida Pycharm muhitida yaratilgan.
 
+---
+
 🎯 Asosiy imkoniyatlar:
+
 🔑 Parol generatsiyasi – foydalanuvchi o'ziga mos kuchli parollar yaratishi mumkin
 
 📁 Yaratilgan parollarni .txt faylga yuklab olish
@@ -19,6 +22,8 @@ BruteForce Web Ilovasi – bu foydalanuvchilarga murakkab parollar yaratishda, u
 
 📜 Oldingi yaratilgan parollar tarixini ko'rish
 
+---
+
 👑 Admin imkoniyatlari
 Admin (foydalanuvchi: jaloliddinomonboev@gmail.com) quyidagi qo‘shimcha imkoniyatlarga ega:
 
@@ -27,6 +32,8 @@ Admin (foydalanuvchi: jaloliddinomonboev@gmail.com) quyidagi qo‘shimcha imkoni
 ⛔ Foydalanuvchilarni o'chirish yoki bloklash
 
 📊 Admin uchun alohida “Foydalanuvchilar” bo‘limi (boshqalarga ko‘rinmaydi)
+
+---
 
 🧭 Ilova tuzilmasi (bo‘limlari)
 Ilova ichida foydalanuvchi quyidagi 5 asosiy bo‘limdan foydalanadi:
@@ -40,6 +47,8 @@ Oldingi generatsiyalar
 Profil sahifasi
 
 Sozlamalar (parol va rasmni o‘zgartirish)
+
+---
 
 🧪 Loyihani ishga tushirish (Local)
 
@@ -65,6 +74,8 @@ python app.py
 
 So'ng brauzeringizda http://localhost:5000 manziliga o'ting.
 
+---
+
 🌐 Onlayn foydalanish
 Ilovani quyidagi havola orqali onlayn ishlatishingiz mumkin:
 
@@ -73,6 +84,8 @@ Ilovani quyidagi havola orqali onlayn ishlatishingiz mumkin:
 📫 Muallif bilan aloqa
 Ism: Jaloliddin Omonboev
 Email: jaloliddinomonboev@gmail.com
+
+---
 
 📝 Litsenziya
 Ushbu loyiha MIT litsenziyasi asosida tarqatiladi – batafsil ma’lumot olish uchun LICENSE faylini ko‘ring.
