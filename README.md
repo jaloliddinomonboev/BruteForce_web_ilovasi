@@ -79,7 +79,7 @@ So'ng brauzeringizda http://localhost:5000 manziliga o'ting.
 🌐 Onlayn foydalanish
 Ilovani quyidagi havola orqali onlayn ishlatishingiz mumkin:
 
-🔗 [https://parollar-generatori.onrender.com](https://bruteforce-web-ilovasi.onrender.com)
+🔗 https://bruteforce-web-ilovasi.onrender.com
 
 📫 Muallif bilan aloqa
 Ism: Jaloliddin Omonboev
